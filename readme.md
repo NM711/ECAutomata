@@ -17,5 +17,6 @@ These are to be added soon, since I am currently building a project with this to
 ###### Compile
 
 ```
-  g++ -o ecautomata ./ecautomata.cpp ./util/seeder.cpp ./util/grid.cpp
+  g++ -c ./ecautomata.cpp ./util/seeder.cpp ./util/grid.cpp
+  ar rvs ecautomata.a ./ecautomata.o ./seeder.o ./grid.o
 ```
