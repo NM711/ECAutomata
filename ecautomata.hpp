@@ -106,7 +106,6 @@ class ECAutomata {
 
   protected:
     Grid grid;
-    GridBuilder builder;
     Seeder seeder;
     NeighboringCellStateCount neighborStateCountMap;
 
@@ -123,18 +122,18 @@ class ECAutomata {
     */
 
     template <typename T> void pass(CustomGridRuleset<T> &ruleset) {
-      Grid freshGrid = this->builder.build();
-      for (int row = 0; row < this->builder.getRows(); ++row) {
-        for (int col = 0; col < this->builder.getCols(); ++col) {
+      std::vector<std::vector<int>> freshGrid = this->grid.getContent();
+      for (int row = 0; row < this->grid.getRows(); ++row) {
+        for (int col = 0; col < this->grid.getCols(); ++col) {
           this->computeNeighbors({row, col}, this->neighborStateCountMap);
-          int current = this->grid.at(row).at(col);
+          int current = this->grid.getContent().at(row).at(col);
           int *update = &freshGrid.at(row).at(col);
           ruleset.apply(current, update, this->neighborStateCountMap);
           this->resetNeighborStateMap();
         };
       };
 
-      this->grid = freshGrid;
+      this->grid.setContent(freshGrid);
     };
 
   private:

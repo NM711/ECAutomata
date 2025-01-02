@@ -23,9 +23,8 @@ void ECAutomata::setNeighborhoodPosition(NeighborhoodPosition np) {
 };
 
 void ECAutomata::initGrid(int rowSize, int colSize, unsigned int popValue) {
-  this->builder.setSize(rowSize, colSize);
-  this->builder.setPopValue(popValue);
-  this->grid = this->builder.build();
+  this->grid.setSize(rowSize, colSize);
+  this->grid.setPopValue(popValue);
 };
 
 int ECAutomata::computePositionalOffset(NeighborSpecification &spec) {
@@ -54,9 +53,9 @@ void ECAutomata::computeNeighbors(Position pos, NeighboringCellStateCount &neigh
   // Make sure that the position has enough space to perform left hand checks in the grid, make sure that the row position
   // Does not go out of bounds.
   
-  if (offsets.top > 0 && pos.row > offsets.top && pos.row < this->builder.getRows()) {
+  if (offsets.top > 0 && pos.row > offsets.top && pos.row < this->grid.getRows()) {
     for (int i = 1; i <= offsets.top; ++i) {
-      int top = this->grid.at(pos.row - i).at(pos.col);
+      int top = this->grid.getContent().at(pos.row - i).at(pos.col);
       neighborStateCount[top] = ++neighborStateCount[top];
     };
 
@@ -65,56 +64,56 @@ void ECAutomata::computeNeighbors(Position pos, NeighboringCellStateCount &neigh
 
   // See if we have enough space to expand downwards.
     
-  if (offsets.bottom > 0 && pos.row < this->builder.getRows() - offsets.bottom) {
+  if (offsets.bottom > 0 && pos.row < this->grid.getRows() - offsets.bottom) {
     for (int i = 1; i <= offsets.top; ++i) {
-      int top = this->grid.at(pos.row + i).at(pos.col);
+      int top = this->grid.getContent().at(pos.row + i).at(pos.col);
       neighborStateCount[top] = ++neighborStateCount[top];
     };
 
     bottomValid = true;
   };
 
-  if (offsets.left > 0 && pos.col > offsets.left && pos.col < this->builder.getCols()) {
+  if (offsets.left > 0 && pos.col > offsets.left && pos.col < this->grid.getCols()) {
     for (int i = 1; i <= offsets.topLeft; ++i) {
-      int cell = this->grid.at(pos.row).at(pos.col - i);
+      int cell = this->grid.getContent().at(pos.row).at(pos.col - i);
       neighborStateCount[cell] = ++neighborStateCount[cell];
     };
   };
 
-  if (offsets.right > 0 && pos.col < this->builder.getCols() - offsets.right) {
+  if (offsets.right > 0 && pos.col < this->grid.getCols() - offsets.right) {
     for (int i = 1; i <= offsets.topLeft; ++i) {
-      int cell = this->grid.at(pos.row).at(pos.col + i);
+      int cell = this->grid.getContent().at(pos.row).at(pos.col + i);
       neighborStateCount[cell] = ++neighborStateCount[cell];
     };
   };
 
   if (topValid) {
-    if (offsets.topLeft > 0 && pos.col > offsets.topLeft && pos.col < this->builder.getCols()) {
+    if (offsets.topLeft > 0 && pos.col > offsets.topLeft && pos.col < this->grid.getCols()) {
       for (int i = 1; i <= offsets.topLeft; ++i) {
-        int cell = this->grid.at(pos.row - offsets.top).at(pos.col - i);
+        int cell = this->grid.getContent().at(pos.row - offsets.top).at(pos.col - i);
         neighborStateCount[cell] = ++neighborStateCount[cell];
       };
     };
 
-    if (offsets.topRight > 0 && pos.col < this->builder.getCols() - offsets.topRight) {
+    if (offsets.topRight > 0 && pos.col < this->grid.getCols() - offsets.topRight) {
       for (int i = 1; i <= offsets.topRight; ++i) {
-        int cell = this->grid.at(pos.row - offsets.top).at(pos.col + i);
+        int cell = this->grid.getContent().at(pos.row - offsets.top).at(pos.col + i);
         neighborStateCount[cell] = ++neighborStateCount[cell];
       };
     };
   };
 
   if (bottomValid) {
-    if (offsets.bottomLeft > 0 && pos.col > offsets.bottomLeft && pos.col < this->builder.getCols()) {
+    if (offsets.bottomLeft > 0 && pos.col > offsets.bottomLeft && pos.col < this->grid.getCols()) {
       for (int i = 1; i <= offsets.bottomLeft; ++i) {
-        int cell = this->grid.at(pos.row + offsets.bottomLeft).at(pos.col - i);
+        int cell = this->grid.getContent().at(pos.row + offsets.bottomLeft).at(pos.col - i);
         neighborStateCount[cell] = ++neighborStateCount[cell];
       };
     };
 
-    if (offsets.bottomRight > 0 && pos.col < this->builder.getCols() - offsets.bottomRight) {
+    if (offsets.bottomRight > 0 && pos.col < this->grid.getCols() - offsets.bottomRight) {
       for (int i = 1; i <= offsets.bottomRight; ++i) {
-        int cell = this->grid.at(pos.row + offsets.bottomRight).at(pos.col + i);
+        int cell = this->grid.getContent().at(pos.row + offsets.bottomRight).at(pos.col + i);
         neighborStateCount[cell] = ++neighborStateCount[cell];
       };
     };
