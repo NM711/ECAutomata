@@ -1,11 +1,11 @@
 
 # ECAUTOMATA - 2D Cellular Framework
 
-Small and extendable framework, that is meant to be used in order to speed up the development of cellular automata by offering
-functionality that is meant to be useful and is meant to remove the boilerplate associated with creating 2D CAs.
+Small and extendable framework, that is meant to be used to speed up the development of cellular automata by offering
+functionality that is meant to remove the boilerplate associated with creating 2D CAs.
 
 While I update the readme I must say that the documentation is still under development, and as I build projects with this
-I may add more functionality overtime.
+I may add more functionality over time.
 
 The framework is only really meant to be used by me but, if someone wishes to use it they can go to the header files and view the
 objects and functionality I have defined, alongside the documentation in the form of comments.
